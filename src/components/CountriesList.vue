@@ -1,17 +1,25 @@
 <template lang="html">
-  <ul>
-    <country-list-item v-for="(country, index) in countries" v-bind:country="country" v-bind:key="index"></country-list-item>
-  </ul>
+  <select v-on:change="showDetails" v-model="selectedCountry">
+    <option v-for="(country, index) in countries" v-bind:value="country">{{country.name}}</option>
+  </select>
 </template>
 
 <script>
-import CountryListItem from './CountryListItem.vue';
+
+import {eventBus} from '../main.js';
 
 export default {
   name: "countries-list",
+  data(){
+    return {
+      "selectedCountry" : {}
+    }
+  },
   props: ['countries'],
-  components: {
-    "country-list-item" : CountryListItem
+  methods: {
+    showDetails(){
+      eventBus.$emit('country-selected', this.selectedCountry)
+    }
   }
 }
 </script>

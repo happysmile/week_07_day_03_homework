@@ -4,7 +4,7 @@
     <country-search v-bind:countries="countries"></country-search>
     <countries-list v-bind:countries="countries"></countries-list>
     <country-detail v-if="selectedCountry" v-bind:country="selectedCountry"></country-detail>
-    <country-detail v-if="searchedCountry" v-bind:country="searchedCountry"></country-detail>    
+    <countries-search-results v-if="filteredCountries" v-bind:countries="filteredCountries"></countries-search-results>
   </div>
 </template>
 
@@ -13,6 +13,7 @@ import CountriesList from './components/CountriesList.vue';
 import {eventBus} from './main.js';
 import CountryDetail from './components/CountryDetail.vue';
 import CountrySearch from './components/CountrySearch.vue';
+import CountriesSearchResults from './components/CountriesSearchResults.vue';
 
 export default {
   name: 'app',
@@ -20,7 +21,7 @@ export default {
     return {
       countries: [],
       selectedCountry: null,
-      searchedCountry: null
+      filteredCountries: []
     }
   },
   mounted(){
@@ -28,12 +29,13 @@ export default {
     .then(result => result.json())
     .then(countries => this.countries = countries);
     eventBus.$on('country-selected', (country) => this.selectedCountry = country);
-    eventBus.$on('country-searched', (country) => this.searchedCountry = country)
+    eventBus.$on('country-searched', (countries) => this.filteredCountries = countries);
   },
   components: {
     "countries-list": CountriesList,
     "country-detail": CountryDetail,
-    "country-search": CountrySearch
+    "country-search": CountrySearch,
+    "countries-search-results": CountriesSearchResults
   }
 }
 </script>

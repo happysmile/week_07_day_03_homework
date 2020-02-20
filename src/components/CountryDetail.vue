@@ -1,4 +1,5 @@
 <template lang="html">
+
 <div v-if="country" class="country-detail">
   <h2>{{country.name}}</h2>
   <img v-bind:src="country.flag" v-bind:alt="country.name" width="300">
@@ -8,8 +9,8 @@
   <ul v-if="country.languages">
     <li v-for="language of country.languages">{{language.name}}</li>
   </ul>
-
 </div>
+
 </template>
 
 <script>

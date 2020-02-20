@@ -1,5 +1,5 @@
 <template lang="html">
-  <input v-on:input="findCountry(countries)" v-model="search.text" type="text">
+  <input v-on:input="filterCountries(countries)" v-model="search.text" type="text">
 </template>
 
 <script>
@@ -13,7 +13,7 @@ export default {
   data(){
     return {
       "search": {
-        result: {},
+        results: [],
         text: "" }
     }
   },
@@ -21,9 +21,9 @@ export default {
   props: ['countries'],
 
   methods: {
-    findCountry(countries){
-      this.search.result = countries.find(country => country.name.includes(this.search.text));
-      eventBus.$emit('country-searched', this.search.result)
+    filterCountries(countries){
+      this.search.results = countries.filter(country => country.name.toLowerCase().includes(this.search.text.toLowerCase()));
+      eventBus.$emit('country-searched', this.search.results);
     }
   }
 
